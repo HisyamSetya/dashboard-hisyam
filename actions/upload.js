@@ -45,8 +45,5 @@ const upload = async (FormData) => {
     // console.log(insert);
     // console.log(Lstr);
   }
-
-  // console.log(raw_data);
-  // console.log(getDate);
 };
 export default upload;

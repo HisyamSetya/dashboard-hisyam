@@ -1,6 +1,8 @@
 "use client";
 import upload from "@/actions/upload";
 
+import Link from "next/link";
+
 const Home = () => {
   return (
     <div>
@@ -10,6 +12,7 @@ const Home = () => {
           Submit
         </button>
       </form>
+      <Link href="/api/post">Export</Link>
     </div>
   );
 };
