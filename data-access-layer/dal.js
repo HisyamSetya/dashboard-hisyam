@@ -6,23 +6,17 @@ async function getUserFromDb(email, password) {
   /* fetch all data from specified table */
   //   const client = await pool.connect();
   try {
-    const res = await pool.query(`SELECT * FROM ${table_name} where email=$1 and password=$2`, [
-      email,
-      password,
-    ]);
-
-    // console.log(res.rows);
+    const res = await pool.query(`SELECT * FROM ${table_name} where email=$1 `, [email]);
+    // console.log("🚀 ~ getUserFromDb ~ res:", res.rows);
 
     if (res.rows == "") {
-      console.log("no data");
-    } else {
-      return res.rows;
+      console.log("no data from DAL action");
+      return null;
     }
+    // console.log(res.rows[0].email);
+    const result = res.rows[0];
 
-    return false;
-    // { message: "NO DATA" };
-
-    // console.log(res);
+    return result;
   } catch (error) {
     console.log(error);
   }

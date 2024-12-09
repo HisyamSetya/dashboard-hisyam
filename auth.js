@@ -1,43 +1,48 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { getUserFromDb } from "@/data-access-layer/dal";
-// Your own logic for dealing with plaintext password strings; be careful!
+import { authConfig } from "./auth.config";
+import bcrypt from "bcrypt";
 // import { saltAndHashPassword } from "@/utils/password"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  // session: {
+  //   strategy: "jwt",
+  // },
+  ...authConfig,
   providers: [
     Credentials({
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
+      // ? You can specify which fields should be submitted, by adding keys to the `credentials` object.
+      //  e.g. domain, username, password, 2FA token, etc.
       credentials: {
         email: {},
         password: {},
       },
-      authorize: async (credentials) => {
-        let user = null;
 
-        // logic to salt and hash password
-        // const pwHash = saltAndHashPassword(credentials.password)
+      async authorize(credentials) {
+        const saltRounds = 10;
+        if (credentials === null) return null;
 
-        // logic to verify if the user exists
-        // user = await getUserFromDb(credentials.email, pwHash);
-        user = await getUserFromDb(credentials.email, credentials.password);
-        console.log(user);
+        // ? logic to verify if the user exists
+
+        const user = await getUserFromDb(credentials?.email);
+
+        // console.log("🚀  ~ credentials?.password:", credentials?.password);
 
         if (!user) {
-          // No user found, so this is their first attempt to login
-          // Optionally, this is also the place you could do a user registration
-          throw new Error("Invalid credentials.");
-          // console.log("Invalid credentials.");
-          // return null;
-        }
+          // throw new Error("User not found");
+          return null;
+        } else {
+          const match = await bcrypt.compare(credentials?.password, user.password);
 
-        // return user object with their profile data
-        return user;
+          // console.log("🚀 ~ authorize ~ match:", match);
+          if (!match) return null;
+          if (match) return user;
+        }
       },
     }),
   ],
   pages: {
-    signIn: "/login",
+    signIn: "/",
   },
 });

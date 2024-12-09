@@ -1,16 +1,21 @@
 "use server";
+import bcrypt from "bcrypt";
 import { signIn } from "@/auth";
-import { redirect } from "next/navigation";
 
 export default async function getUserAccess(formData) {
   try {
-    await signIn("credentials", formData, "/scanner");
+    const response = await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      redirect: false,
+    });
     // return redirect("/scanner");
+    return response;
   } catch (error) {
-    if (error) {
-      return redirect("/login");
-    }
+    // throw new Error(error);
+    // console.log("No User Access");
     throw error;
+    // return null;
   }
   //   console.log(formData);
 }

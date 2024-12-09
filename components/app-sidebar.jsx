@@ -1,6 +1,8 @@
 import { Calendar, Home, Inbox, Search, Settings, PackageSearch, ChevronDown } from "lucide-react";
 import Link from "next/link";
-
+import { Button } from "./ui/button";
+import { signOut } from "@/auth";
+import { redirect } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -46,10 +48,23 @@ const items = [
 ];
 
 export function AppSidebar() {
+  // async function onClick() {
+  //   await signOut();
+  // }
+
   return (
     <Sidebar>
       <SidebarHeader>
         Cashier HiDev
+        <form
+          action={async () => {
+            "use server";
+            await signOut();
+            redirect("/login");
+          }}
+        >
+          <Button type="submit">Sign out</Button>
+        </form>
         <SidebarContent>
           <SidebarGroup>
             {/*  Collapse */}

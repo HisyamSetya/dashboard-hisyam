@@ -1,7 +1,6 @@
 import localFont from "next/font/local";
+import { SessionProvider } from "next-auth/react";
 import "./globals.css";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -19,17 +18,20 @@ export const metadata = {
   description: "Cashier Life",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, session }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <SidebarProvider>
+        {/* <SidebarProvider>
           <AppSidebar />
           <main>
             <SidebarTrigger />
             {children}
           </main>
-        </SidebarProvider>
+        </SidebarProvider> */}
+        <main>
+          <SessionProvider session={session}>{children}</SessionProvider>
+        </main>
       </body>
     </html>
   );
