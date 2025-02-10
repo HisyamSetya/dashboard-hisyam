@@ -8,8 +8,8 @@ export async function middleware(request) {
   const session = await auth();
   const baseUrl = "http://localhost:3000/";
   const { nextUrl } = request;
-  const isAuthenticated = !!session?.user;
-  // const isAuthenticated = true;
+  // const isAuthenticated = !!session?.user;
+  const isAuthenticated = true;
 
   console.log("from middlewareeee");
   console.log("🚀 ~ nextUrl ~ nextUrl:", isAuthenticated);

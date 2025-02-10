@@ -7,7 +7,7 @@ const DashboardLayout = ({ children }) => {
     <div>
       <SidebarProvider>
         <AppSidebar />
-        <main>
+        <main className="container mx-auto px-4">
           <SidebarTrigger />
           {children}
         </main>

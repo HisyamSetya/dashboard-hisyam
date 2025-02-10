@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { signOut } from "@/auth";
 import { redirect } from "next/navigation";
+import { MasterDataSubmenu } from "@/components/MasterDataSubmenu";
+
 import {
   Sidebar,
   SidebarContent,
@@ -81,13 +83,14 @@ export function AppSidebar() {
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
-                      <SidebarMenuSubItem asChild>
+                      {/* <SidebarMenuSubItem asChild>
                         <SidebarMenuSubButton asChild>
-                          <Link href="#">
+                          <Link href="dashboard/product">
                             <span>Product</span>
                           </Link>
                         </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
+                      </SidebarMenuSubItem> */}
+                      <MasterDataSubmenu />
                     </SidebarMenuSub>
                   </CollapsibleContent>
                 </SidebarMenuItem>
