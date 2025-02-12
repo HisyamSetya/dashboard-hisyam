@@ -9,7 +9,6 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
-  getPageCount,
 } from "@tanstack/react-table";
 
 import {
@@ -42,7 +41,6 @@ export function DataTable({ columns, data }) {
   const table = useReactTable({
     data,
     columns,
-    getPageCount,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -119,8 +117,10 @@ export function DataTable({ columns, data }) {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                // console.log("🚀 ~ DataTable ~ row:", row.original),
+                <TableRow key={row.original.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
+                    // console.log("🚀 ~ DataTable ~ cell:", cell.getContext()),
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>

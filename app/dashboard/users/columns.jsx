@@ -2,6 +2,10 @@
 import { ArrowUpDown } from "lucide-react";
 import { MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useMemo } from "react";
+import date from "date-and-time";
+
+// import { getvalue } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -36,7 +40,7 @@ export const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "name",
+    accessorKey: "nama",
     header: "Name",
     // header: () => <div className="text-blue-700">Amount</div>,
   },
@@ -56,8 +60,12 @@ export const columns = [
     },
   },
   {
-    accessorKey: "created_date",
-    header: "created_date",
+    accessorKey: "createddate",
+    header: "Created Date",
+    cell: (props) => {
+      const dateValue = props.getValue();
+      return <p>{date.format(dateValue, "YYYY/MM/DD HH:mm:ss")}</p>;
+    },
   },
   {
     accessorKey: "role",

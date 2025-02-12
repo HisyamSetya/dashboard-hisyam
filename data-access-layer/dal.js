@@ -22,4 +22,24 @@ async function getUserFromDb(email, password) {
   }
 }
 
-export { getUserFromDb };
+async function getUserDetail() {
+  const table_name = "masteruser"; // name of table
+
+  try {
+    const res = await pool.query(`SELECT id, nama, email, createddate, role FROM ${table_name}`);
+    // console.log("🚀 ~ getUserFromDb ~ res:", res.rows);
+
+    if (res.rows == "") {
+      console.log("There is no data users");
+      return null;
+    }
+    // console.log(res.rows[0].email);
+    const result = res.rows;
+
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export { getUserFromDb, getUserDetail };
