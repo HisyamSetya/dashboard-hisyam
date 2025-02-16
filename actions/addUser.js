@@ -1,12 +1,12 @@
 "use server";
 import { z } from "zod";
 
-export const addUser = async (formData) => {
+export const addUser = async (prevState, formData) => {
   const addUserSchema = z.object({
     email: z
       .string()
       .email({ message: "Please enter valid email" })
-      .max(30, { message: "Must be 30 or fewer characters long" })
+      .max(50, { message: "Must be 50 or fewer characters long" })
       .trim(),
   });
 
@@ -14,12 +14,16 @@ export const addUser = async (formData) => {
     email: formData.get("email"),
   };
   //   const email = formData.get("email");
-  //   console.log("🚀 ~ addUser ~ email:", email);
+  // console.log("🚀 ~ addUser ~ email:", email);
   const result = addUserSchema.safeParse(data);
-  //   console.log("🚀 ~ addUser ~ result:", result);
 
   if (!result.success) {
-    // console.log("🚀 ~ addUser ~ formData:", result.error.issues);
-    console.log("🚀 ~ addUser ~ formData:", result.error.flatten().fieldErrors);
+    return {
+      success: false,
+      message: "Please enter valid email",
+      error: result.error.flatten().fieldErrors,
+    };
   }
+
+  if (result.success) return { success: true, message: "Success insert data" };
 };
